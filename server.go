@@ -623,6 +623,22 @@ func (srv *Server) serveUDPPacket(wg *sync.WaitGroup, m []byte, u net.PacketConn
 	wg.Done()
 }
 
+type msgRecoder struct {
+	msg []byte
+}
+
+func (m *msgRecoder) Write(p []byte) (int, error) {
+	m.msg = p
+	return len(p), nil
+}
+
+// ServeDNSPacket is a convenience function that takes a raw DNS message and returns a raw DNS message.
+func (srv *Server) ServeDNSPacket(m []byte) []byte {
+	w := msgRecoder{}
+	srv.serveDNS(m, &response{writer: &w})
+	return w.msg
+}
+
 func (srv *Server) serveDNS(m []byte, w *response) {
 	dh, off, err := unpackMsgHdr(m, 0)
 	if err != nil {
