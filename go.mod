@@ -1,15 +1,12 @@
 module github.com/aurascape/miekg-dns
 
-go 1.19
+go 1.22.4
 
 require (
-	github.com/miekg/dns v0.0.0-00010101000000-000000000000
-	golang.org/x/net v0.28.0
-	golang.org/x/sync v0.7.0
-	golang.org/x/sys v0.23.0
-	golang.org/x/tools v0.22.0
+	golang.org/x/net v0.29.0
+	golang.org/x/sync v0.8.0
+	golang.org/x/sys v0.25.0
+	golang.org/x/tools v0.25.0
 )
 
-require golang.org/x/mod v0.18.0 // indirect
-
-replace github.com/miekg/dns => ./
+require golang.org/x/mod v0.21.0 // indirect
