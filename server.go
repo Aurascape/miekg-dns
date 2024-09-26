@@ -395,6 +395,14 @@ func (srv *Server) ActivateAndServe() error {
 	return &Error{err: "bad listeners"}
 }
 
+func NewRawPacketServer(handler HandlerFunc) *Server {
+	return &Server{
+		Handler:        handler,
+		MsgAcceptFunc:  DefaultMsgAcceptFunc,
+		MsgInvalidFunc: DefaultMsgInvalidFunc,
+	}
+}
+
 // Shutdown shuts down a server. After a call to Shutdown, ListenAndServe and
 // ActivateAndServe will return.
 func (srv *Server) Shutdown() error {

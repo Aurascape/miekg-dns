@@ -1445,17 +1445,15 @@ kFsxKCqxAnBVGEWAvVZAiiTOxleQFjz5RnL0BQp9Lg2cQe+dvuUmIAA=
 
 func TestServeDNSPacket(t *testing.T) {
 
-	server := &Server{
-		Handler: HandlerFunc(func(w ResponseWriter, r *Msg) {
+	server := NewRawPacketServer(
+		HandlerFunc(func(w ResponseWriter, r *Msg) {
 			reply, err := Exchange(r, "1.1.1.1:53")
 			if err != nil {
 				t.Errorf("failed to exchange: %v", err)
 			}
 			_ = w.WriteMsg(reply)
 		}),
-	}
-
-	server.init()
+	)
 
 	// a packet copied from a real DNS query for mask.apple-dns.net
 	query := []byte{0xd6, 07, 01, 00, 00, 01, 00, 00, 00, 00, 00, 00, 04, 0x6d, 0x61, 0x73, 0x6b, 0x09, 0x61, 0x70, 0x70, 0x6c, 0x65, 0x2d, 0x64, 0x6e, 0x73, 03, 0x6e, 0x65, 0x74, 00, 00, 01, 00, 01}
